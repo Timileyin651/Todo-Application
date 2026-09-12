@@ -1,0 +1,391 @@
+/* ============================================================
+   Crossly — Task pages (view all / create / edit)
+   Reuses tokens + base classes from auth.css:
+   colors (--orange, --ink, --paper, ...), fonts, .form-card,
+   .field, .btn-primary, .link-muted. Load auth.css BEFORE this file.
+   ============================================================ */
+
+/* ---------- top nav ---------- */
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 40px;
+  border-bottom: 3px solid var(--orange);
+  background: linear-gradient(165deg, var(--orange-mist) 0%, var(--paper) 70%);
+}
+
+.app-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  color: var(--orange-deep);
+  text-decoration: none;
+}
+
+.app-nav__mark {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.app-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.app-nav__link {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.app-nav__link:hover,
+.app-nav__link.is-active {
+  color: var(--orange-deep);
+}
+
+.app-nav__cta {
+  padding: 9px 18px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--orange) 0%, var(--orange-deep) 100%);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  text-decoration: none;
+  box-shadow: 0 5px 14px rgba(207, 95, 22, 0.26);
+}
+
+/* ---------- page shell ---------- */
+
+.page-container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 44px 32px 80px;
+}
+
+.page-container--narrow {
+  max-width: 480px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.page-header h1 {
+  font-family: var(--font-hand);
+  font-size: 2rem;
+  color: var(--orange);
+  margin: 0 0 4px;
+}
+
+.page-header p {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.92rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 22px;
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--orange-deep);
+}
+
+/* ---------- status filter ---------- */
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.filter-pill {
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--orange-faint);
+  background: var(--paper);
+  color: var(--ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.filter-pill:hover {
+  border-color: var(--orange-soft);
+  color: var(--orange-deep);
+}
+
+.filter-pill.is-active {
+  background: linear-gradient(135deg, var(--orange) 0%, var(--orange-deep) 100%);
+  border-color: transparent;
+  color: var(--paper);
+  font-weight: 600;
+}
+
+/* ---------- task list ---------- */
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.task-card {
+  display: block;
+  background: var(--paper);
+  border: 1.5px solid var(--orange-faint);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.task-card:hover {
+  border-color: var(--orange-soft);
+  box-shadow: 0 8px 20px rgba(207, 95, 22, 0.1);
+  transform: translateY(-1px);
+}
+
+.task-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.task-card__title {
+  font-family: var(--font-hand);
+  font-size: 1.28rem;
+  color: var(--ink);
+  margin: 0;
+}
+
+.task-card__title.is-done {
+  color: var(--ink-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--orange-soft);
+  text-decoration-thickness: 2px;
+}
+
+.task-card__desc {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.task-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+.task-edit-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--orange-deep);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--orange-soft);
+}
+
+.task-edit-link:hover {
+  color: var(--orange);
+}
+
+/* ---------- status badge ---------- */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-badge--todo {
+  background: var(--orange-mist);
+  color: var(--orange-deep);
+  border: 1px solid var(--orange-faint);
+}
+
+.status-badge--progress {
+  background: var(--orange-faint);
+  color: var(--orange-deep);
+  border: 1px solid var(--orange-soft);
+}
+
+.status-badge--done {
+  background: var(--orange-deep);
+  color: var(--paper);
+  border: 1px solid var(--orange-deep);
+}
+
+/* ---------- empty state ---------- */
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ink-muted);
+}
+
+.empty-state p {
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+  margin: 0 0 18px;
+  color: var(--orange-deep);
+}
+
+/* ---------- forms (create / edit) ---------- */
+
+.page-container .form-card {
+  max-width: 100%;
+}
+
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--orange-soft);
+  border-radius: var(--radius);
+  background: var(--orange-mist);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--orange-deep);
+  background: var(--paper);
+  box-shadow: 0 0 0 3px var(--orange-faint);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.5;
+}
+
+.field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23cf5f16' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* read-only display fields, used on the edit page for title/description */
+
+.static-field {
+  margin-bottom: 18px;
+}
+
+.static-field .field-label {
+  display: block;
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  color: var(--orange-deep);
+  margin-bottom: 6px;
+}
+
+.static-field .field-value {
+  padding: 12px 14px;
+  border: 1.5px dashed var(--orange-faint);
+  border-radius: var(--radius);
+  background: var(--orange-mist);
+  color: var(--ink-muted);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.static-field .field-value--title {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid var(--orange-soft);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--orange-deep);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-outline:hover {
+  background: var(--orange-mist);
+  border-color: var(--orange-deep);
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 640px) {
+  .app-nav {
+    padding: 18px 20px;
+  }
+
+  .app-nav__links {
+    gap: 14px;
+  }
+
+  .app-nav__link {
+    display: none;
+  }
+
+  .page-container {
+    padding: 32px 20px 60px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}

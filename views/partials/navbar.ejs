@@ -1,0 +1,20 @@
+<%
+// Usage: include with locals { current: 'list' | 'new' }
+const cur = typeof current !== 'undefined' ? current : '';
+%>
+<nav class="app-nav">
+  <a class="app-nav__brand" href="/tasks">
+    <span class="app-nav__mark">
+      <%- include('doodle', { variant: 'mini', delayClass: '' }) %>
+    </span>
+    Crossly
+  </a>
+
+  <div class="app-nav__links">
+    <a class="app-nav__link <%= cur === 'list' ? 'is-active' : '' %>" href="/tasks">All tasks</a>
+    <a class="app-nav__cta" href="/tasks/newtask">+ New task</a>
+    <form action="/logout" method="post">
+      <button type="submit" class="btn-primary">Log Out</button>
+    </form>
+  </div>
+</nav>

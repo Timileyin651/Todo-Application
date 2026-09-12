@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', { pageTitle: 'Log in' }) %>
+<body>
+  <main class="auth-shell">
+    <%- include('partials/hero', {
+      heading: 'CROSS YOUR TASKS',
+      tagline: "Let's get all your tasks completed."
+    }) %>
+
+    <section class="form-panel">
+      <div class="form-card">
+        <h2>Log in</h2>
+        <p class="subtitle">Welcome back</p>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="error-banner"><%= error %></div>
+        <% } %>
+
+        <form action="/login" method="POST" novalidate>
+          <div class="field">
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" placeholder="e.g. jane_doe" required autocomplete="username" />
+          </div>
+
+          <div class="field">
+            <label for="password">password</label>
+            <input type="password" id="password" name="password" placeholder="Your password" required autocomplete="current-password" />
+          </div>
+
+          <div class="field-row">
+
+            <a class="link-muted" href="/reset">forgot password</a>
+          </div>
+
+          <button type="submit" class="btn-primary">Log in</button>
+        </form>
+
+        <p class="form-footnote">
+          New to Crossly? <a class="link-muted" href="/signup">Sign up</a>
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

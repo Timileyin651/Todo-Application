@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', { pageTitle: 'Sign up' }) %>
+<body>
+  <main class="auth-shell">
+    <%- include('partials/hero', {
+      heading: 'CROSS YOUR TASKS',
+      tagline: "Let's get all your tasks completed."
+    }) %>
+
+    <section class="form-panel">
+      <div class="form-card">
+        <h2>Sign up</h2>
+        <p class="subtitle">Create your account</p>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="error-banner"><%= error %></div>
+        <% } %>
+
+        <form action="/signup" method="POST" novalidate>
+          <div class="field">
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" placeholder="e.g. jane_doe" required autocomplete="username" />
+          </div>
+
+          <div class="field">
+            <label for="password">password</label>
+            <input type="password" id="password" name="password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password" />
+          </div>
+
+
+          <button type="submit" class="btn-primary">Create account</button>
+        </form>
+
+        <p class="form-footnote">
+          Already have an account? <a class="link-muted" href="/login">Log in</a>
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

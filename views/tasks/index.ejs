@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { pageTitle: 'All tasks', extraCss: ['/css/tasks.css'] }) %>
+<body>
+  <%- include('../partials/navbar', { current: 'list' }) %>
+
+  <main class="page-container">
+    <div class="page-header">
+      <div>
+        <h1>All tasks</h1>
+        <p>Cross them off as you go.</p>
+      </div>
+      <a class="app-nav__cta" href="/tasks/newtask">+ New task</a>
+    </div>
+
+    <%
+      // `activeFilter` is the status currently applied ('All' | 'To Do' | 'In Progress' | 'Done'),
+      // passed in from the controller based on req.query.status.
+      const active = typeof activeFilter !== 'undefined' ? activeFilter : 'All';
+      const filters = ['All', 'Pending', 'Completed', 'Deleted'];
+    %>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <div class="error-banner"><%= error %></div>
+    <% } %>
+
+    <div class="filter-bar">
+      <% filters.forEach(function (f) { %>
+        <a
+          class="filter-pill <%= active === f ? 'is-active' : '' %>"
+          href="<%= f === 'All' ? '/tasks' : '/tasks?status=' + encodeURIComponent(f) %>"
+        ><%= f %></a>
+      <% }); %>
+    </div>
+
+
+    <% if (tasks.length === 0) { %>
+      <div class="empty-state">
+        <% if (active === 'All') { %>
+          <p>No tasks yet.</p>
+          <a class="app-nav__cta" href="/tasks/newtask">+ Create your first task</a>
+        <% } else { %>
+          <p>Nothing marked "<%= active %>" right now.</p>
+          <a class="app-nav__cta" href="/tasks">Clear filter</a>
+        <% } %>
+      </div>
+    <% } else { %>
+      <div class="task-list">
+        <% tasks.forEach(function (task) { %>
+          <article class="task-card">
+            <div class="task-card__top">
+              <h2 class="task-card__title <%= task.status === 'Done' ? 'is-done' : '' %>"><%= task.title %></h2>
+              <span class="status-badge <%= task.status %>"><%= task.status %></span>
+            </div>
+            <% if (task.description) { %>
+              <p class="task-card__desc"><%= task.description %></p>
+            <% } %>
+            <div class="task-card__footer">
+              <span></span>
+              <a class="task-edit-link" href="/tasks/<%= task.id %>">Edit status</a>
+              <form action="/tasks/delete/<%= task.id %>" method="post">
+                <button type="submit" class="btn-primary">Delete Task</button>
+              </form>
+            </div>
+          </article>
+        <% }); %>
+      </div>
+    <% } %>
+  </main>
+</body>
+</html>

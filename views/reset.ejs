@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', { pageTitle: 'Reset password' }) %>
+<body>
+  <main class="auth-shell">
+    <%- include('partials/hero', {
+      heading: 'CROSS ONE MORE TASK',
+      tagline: "Resetting your password takes a minute."
+    }) %>
+
+    <section class="form-panel">
+      <div class="form-card">
+        <h2>Reset password</h2>
+
+
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="error-banner"><%= error %></div>
+        <% } %>
+
+        <form action="/reset" method="POST" novalidate>
+          <div class="field">
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" placeholder="e.g. jane_doe" required autocomplete="username" />
+          </div>
+
+          <div class="field">
+            <label for="password">password</label>
+            <input type="password" id="password" name="password" placeholder="Your password" required autocomplete="current-password" />
+          </div>
+
+          <div class="field">
+            <label for="new_password">new password</label>
+            <input type="password" id="new_password" name="new_password" placeholder="Your new password" required autocomplete="current-password" />
+          </div>
+
+
+
+          <button type="submit" class="btn-primary">Reset</button>
+        </form>
+
+        <p class="form-footnote">
+          Remembered it? <a class="link-muted" href="/login">Back to log in</a>
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

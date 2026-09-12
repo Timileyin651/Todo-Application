@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { pageTitle: 'New task', extraCss: ['/css/tasks.css'] }) %>
+<body>
+  <%- include('../partials/navbar', { current: 'new' }) %>
+
+  <main class="page-container page-container--narrow">
+    <a class="back-link" href="/tasks">&larr; Back to all tasks</a>
+
+    <div class="form-card">
+      <h2>New task</h2>
+      <p class="subtitle">Add something to cross off later</p>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="error-banner"><%= error %></div>
+      <% } %>
+
+      <form action="/tasks/newtask/" method="POST" novalidate>
+        <div class="field">
+          <label for="title">title</label>
+          <input type="text" id="title" name="title" placeholder="e.g. Write the launch email" required autofocus />
+        </div>
+
+        <div class="field">
+          <label for="description">description</label>
+          <textarea id="description" name="description" placeholder="A sentence or two of detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="status">status</label>
+          <select id="status" name="status">
+            <option value="Pending" selected>Pending</option>
+            <option value="Completed" >Completed</option>
+            <option value="Deleted" >Deleted</option>
+
+            <!-- <option value="completed">Completed</option> -->
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Create task</button>
+          <a class="btn-outline" href="/tasks/newtask">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

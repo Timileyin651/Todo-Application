@@ -1,0 +1,19 @@
+<%
+// Usage: include this partial with locals { heading: '...', tagline: '...' }
+%>
+<section class="hero-panel">
+  <div class="doodle-corner doodle-corner--top">
+    <%- include('doodle', { variant: 'cross', delayClass: '' }) %>
+  </div>
+
+  <!-- <span class="brand">Crossly</span> -->
+
+  <div class="hero-copy">
+    <h1><%= heading %></h1>
+    <p><%= tagline %></p>
+  </div>
+
+  <div class="doodle-corner doodle-corner--bottom">
+    <%- include('doodle', { variant: 'tic', delayClass: 'delay-2' }) %>
+  </div>
+</section>

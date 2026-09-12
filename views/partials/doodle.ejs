@@ -1,0 +1,55 @@
+<%
+// Usage: include this partial with locals { variant: 'full' | 'mini', delayClass: '' | 'delay-1' | 'delay-2' }
+// variant 'full' = a complete hand-drawn 3x3 board, X wins the diagonal, strike-through loops
+// variant 'mini' = a small cropped corner glimpse of the same board (grid corner + one X + one O)
+// delayClass staggers the drift animation so multiple boards don't move in sync
+const v = typeof variant !== 'undefined' ? variant : 'full';
+const dClass = typeof delayClass !== 'undefined' ? delayClass : '';
+%>
+
+<% if (v === 'full') { %>
+<svg class="doodle-svg" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g class="doodle-group <%= dClass %>">
+
+    <!-- hand-drawn 3x3 grid, slightly wobbly lines -->
+    <path class="tic-grid" d="M78,12 Q81,108 83,208" />
+    <path class="tic-grid" d="M144,16 Q141,110 139,206" />
+    <path class="tic-grid" d="M12,74 Q108,79 208,68" />
+    <path class="tic-grid" d="M16,140 Q110,135 206,146" />
+
+    <!-- O top-right -->
+    <ellipse class="tic-o" cx="172" cy="44" rx="19" ry="17" transform="rotate(-6 172 44)" />
+    <!-- O bottom-left -->
+    <ellipse class="tic-o" cx="46" cy="176" rx="18" ry="16" transform="rotate(9 46 176)" />
+
+    <!-- X top-left -->
+    <path class="tic-x" d="M32,28 Q47,44 62,60" />
+    <path class="tic-x" d="M61,27 Q46,44 30,61" />
+    <!-- X centre -->
+    <path class="tic-x" d="M94,92 Q110,109 126,126" />
+    <path class="tic-x" d="M125,91 Q109,109 93,127" />
+    <!-- X bottom-right -->
+    <path class="tic-x" d="M156,158 Q171,174 186,190" />
+    <path class="tic-x" d="M185,157 Q170,174 155,191" />
+
+    <!-- winning diagonal, draws in on a slow loop -->
+    <path class="tic-strike" d="M24,22 Q108,108 192,196" />
+  </g>
+</svg>
+<% } else { %>
+<svg class="doodle-svg" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g class="doodle-group <%= dClass %>">
+
+    <!-- corner glimpse of the same grid, cropped by the viewBox -->
+    <path class="tic-grid tic-grid--mini" d="M52,-6 Q55,66 57,146" />
+    <path class="tic-grid tic-grid--mini" d="M-6,54 Q66,58 146,48" />
+
+    <!-- O sitting in the corner cell -->
+    <ellipse class="tic-o tic-o--mini" cx="98" cy="98" rx="21" ry="19" transform="rotate(-7 98 98)" />
+
+    <!-- small X peeking in from the top-left cell -->
+    <path class="tic-x tic-x--mini" d="M10,8 Q21,20 32,32" />
+    <path class="tic-x tic-x--mini" d="M31,7 Q20,20 9,33" />
+  </g>
+</svg>
+<% } %>
