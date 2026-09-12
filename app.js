@@ -9,8 +9,8 @@ const db = require('./config/db')
 const logger = require('./utils/logger')
 require('dotenv').config()
 
-const PORT = process.env.PORT;
-const HOST = process.env.HOST;
+const PORT = process.env.PORT || '0.0.0.0';
+const HOST = process.env.HOST || 'localhost';
 const app = express();
 
 //connect to db
