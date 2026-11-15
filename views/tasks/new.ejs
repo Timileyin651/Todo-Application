@@ -32,9 +32,16 @@
             <option value="Pending" selected>Pending</option>
             <option value="Completed" >Completed</option>
             <option value="Deleted" >Deleted</option>
+            <!-- <option value="Overdue"  >Overdue</option> -->
 
             <!-- <option value="completed">Completed</option> -->
           </select>
+        </div>
+
+        <div class="field">
+          <label for="endsAt">end time</label>
+          <input type="datetime-local" id="endsAt" name="endsAt" />
+          <p class="field-hint">Pick the date and time this task should be finished by.</p>
         </div>
 
         <div class="form-actions">

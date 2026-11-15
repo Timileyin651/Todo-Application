@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
-const STATUSES = ['Pending', 'Completed', 'Deleted'];
+const STATUSES = ['Pending', 'Completed', 'Deleted','Overdue'];
 
 const TaskSchema = new Schema ({
     title:{
@@ -15,12 +15,16 @@ const TaskSchema = new Schema ({
     status:{
         type: String,
         enum: STATUSES,
-        default: 'pending'
+        default: 'Pending'
     },
     user:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'TodoUser',
         required: true
+    },
+    end_at: {
+        type: Date,
+        default: null
     }
 }, {timestamps:true});
 

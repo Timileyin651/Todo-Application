@@ -40,7 +40,8 @@ const storeTask = async(req,res)=>{
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            user: req.user._id
+            user: req.user._id,
+            end_at: req.body.endsAt
         })
         res.redirect('/tasks')
     } catch (error) {
@@ -57,7 +58,12 @@ const updateTask = async(req,res)=>{
             _id: req.params.id,
             user: req.user._id
         },{
-            status: req.body.status
+            $set: {
+                status: req.body.status,
+            end_at: req.body.endsAt
+            }
+        },{
+            new: true
         })
         res.redirect('/tasks')
 

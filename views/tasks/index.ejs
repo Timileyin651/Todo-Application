@@ -17,7 +17,7 @@
       // `activeFilter` is the status currently applied ('All' | 'To Do' | 'In Progress' | 'Done'),
       // passed in from the controller based on req.query.status.
       const active = typeof activeFilter !== 'undefined' ? activeFilter : 'All';
-      const filters = ['All', 'Pending', 'Completed', 'Deleted'];
+      const filters = ['All', 'Pending', 'Completed', 'Deleted', 'Overdue'];
     %>
 
     <% if (typeof error !== 'undefined' && error) { %>
@@ -47,9 +47,9 @@
     <% } else { %>
       <div class="task-list">
         <% tasks.forEach(function (task) { %>
-          <article class="task-card">
+          <article class="task-card" data-task-id="<%= task.id %>">
             <div class="task-card__top">
-              <h2 class="task-card__title <%= task.status === 'Done' ? 'is-done' : '' %>"><%= task.title %></h2>
+              <h2 class="task-card__title <%= task.status === 'Completed' ? 'is-done' : '' %>"><%= task.title %></h2>
               <span class="status-badge <%= task.status %>"><%= task.status %></span>
             </div>
             <% if (task.description) { %>
@@ -67,5 +67,8 @@
       </div>
     <% } %>
   </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/script.js"></script>
 </body>
 </html>

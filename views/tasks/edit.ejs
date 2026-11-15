@@ -9,18 +9,24 @@
 
     <%
       // Demo fallback so this page renders standalone; pass a real `task`
-      // object ({ id, title, description, status }) from your route handler.
+      // object ({ id, title, description, status, end_at }) from your route handler.
       const t = typeof task !== 'undefined' ? task : {
         id: 1,
         title: 'Design the onboarding flow',
         description: 'Sketch the three screens new users see before their first task.',
-        status: 'In Progress'
+        status: 'Pending',
+        end_at: new Date('2026-11-14T18:06:00.000Z')
       };
+
+      // end_at is stored as a UTC Date (null when not set). Show it exactly as stored
+      // (no timezone conversion), in the format datetime-local expects: YYYY-MM-DDTHH:mm
+      const endAtDate = t.end_at ? new Date(t.end_at) : null;
+      const endsAtValue = endAtDate && !isNaN(endAtDate) ? endAtDate.toISOString().slice(0, 16) : '';
     %>
 
-    <div class="form-card">
+    <div class="form-card" data-task-id="<%= t.id %>">
       <h2>Edit task</h2>
-      <p class="subtitle">Only the status can change here</p>
+      <p class="subtitle">Update the status or the end time</p>
 
       <% if (typeof error !== 'undefined' && error) { %>
         <div class="error-banner"><%= error %></div>
@@ -28,32 +34,41 @@
 
       <div class="static-field">
         <span class="field-label">title</span>
-        <p class="field-value field-value--title"><%= task.title %></p>
+        <p class="field-value field-value--title"><%= t.title %></p>
       </div>
 
-      <% if (task.description) { %>
+      <% if (t.description) { %>
         <div class="static-field">
           <span class="field-label">description</span>
-          <p class="field-value"><%= task.description %></p>
+          <p class="field-value"><%= t.description %></p>
         </div>
       <% } %>
 
-      <form action="/tasks/<%= task.id %>" method="POST" novalidate>
+      <form action="/tasks/<%= t.id %>" method="POST" novalidate>
         <div class="field">
           <label for="status">status</label>
           <select id="status" name="status">
-            <option value="Pending" <%= task.status === 'p' ? 'selected' : '' %>>Pending</option>
-            <option value="Completed" <%= task.status === 'Completed' ? 'selected' : '' %>>Completed</option>
-            <option value="Deleted" <%= task.status === 'Deleted' ? 'selected' : '' %>>Deleted</option>
+            <option value="Pending" <%= t.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+            <option value="Completed" <%= t.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+            <option value="Deleted" <%= t.status === 'Deleted' ? 'selected' : '' %>>Deleted</option>
+            <option value="Overdue" <%= t.status === 'Overdue' ? 'selected' : '' %>>Overdue</option>
           </select>
         </div>
 
+        <div class="field">
+          <label for="endsAt">end time (UTC)</label>
+          <input type="datetime-local" id="endsAt" name="endsAt" value="<%= endsAtValue %>" />
+          <p class="field-hint">Shown exactly as stored. Clear it to remove the end time. If you move it later, set the status back to Pending.</p>
+        </div>
+
         <div class="form-actions">
-          <button type="submit" class="btn-primary">Save status</button>
+          <button type="submit" class="btn-primary">Save changes</button>
           <a class="btn-outline" href="/tasks">Cancel</a>
         </div>
       </form>
     </div>
   </main>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/script.js"></script>
 </body>
 </html>

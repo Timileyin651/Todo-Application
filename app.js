@@ -7,14 +7,14 @@ const tasksRoute = require('./routes/tasks')
 const session = require('express-session')
 const db = require('./config/db')
 const logger = require('./utils/logger')
+const path = require('path')
 require('dotenv').config()
 
-const PORT = process.env.PORT || '0.0.0.0';
-const HOST = process.env.HOST || 'localhost';
-const app = express();
 
-//connect to db
-db.connectToMongoDB();
+const app = express();
+app.use(express.static(path.join(__dirname, 'public')))
+
+
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -55,10 +55,10 @@ app.get('/reset', (req, res) => {
 
 
 app.post('/signup', async (req,res) => {
-    const {username, password} = req.body;
+    const {username, password, email} = req.body;
     try {
         const user = await userModel.register(
-            new userModel({username}),
+            new userModel({username,email}),
             password
         );
         passport.authenticate('local')(req,res, async () =>{
@@ -116,8 +116,8 @@ app.post('/reset', async (req,res)=>{
 app.use((err,req,res,next)=>{
     logger.error(err);
 })
-app.listen(PORT, ()=>{
-    console.log(`Server listening on port ${PORT}`)
-})
+
+module.exports = app
+
 
 

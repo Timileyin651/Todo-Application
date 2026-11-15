@@ -2,7 +2,16 @@ const express = require('express')
 const taskRouter = express.Router();
 const taskController = require('../controllers/taskController')
 
-taskRouter.get('/', taskController.getAllTasks);
+function noCache(req, res, next) {
+  res.set({
+    'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+  });
+  next();
+}
+
+taskRouter.get('/',noCache, taskController.getAllTasks);
 taskRouter.get('/newtask', taskController.createForm)
 taskRouter.get('/:id', taskController.editForm)
 taskRouter.post('/newtask',taskController.storeTask);
