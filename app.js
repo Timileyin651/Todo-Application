@@ -8,7 +8,7 @@ const session = require('express-session')
 const db = require('./config/db')
 const logger = require('./utils/logger')
 const path = require('path')
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo').default;
 require('dotenv').config()
 
 
