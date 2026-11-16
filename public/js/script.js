@@ -1,6 +1,5 @@
-// On the edit page, #status is the <select> dropdown
-
 // Set on the page with <body data-task-id="<%= t.id %>">
+const socket = io();
 const formCard = document.querySelector(".form-card");
 const taskId = formCard?.dataset.taskId;
 const taskCards = document.querySelectorAll(".task-card");
