@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const logger = require('../utils/logger')
-// const { startOverdueJob } = require('../jobs/overdueJob')
+const logger = require('../utils/logger');
+const { startOverdueJob } = require('../jobs/overdueJob');
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
 //connect to mongodb
-function connectToMongoDB(){
+function connectToMongoDB(io){
     mongoose.connect(MONGODB_URI);
 
     mongoose.connection.on('connected', () =>{

@@ -1,5 +1,8 @@
-// Set on the page with <body data-task-id="<%= t.id %>">
 const socket = io();
+
+// On the edit page, #status is the <select> dropdown
+
+// Set on the page with <body data-task-id="<%= t.id %>">
 const formCard = document.querySelector(".form-card");
 const taskId = formCard?.dataset.taskId;
 const taskCards = document.querySelectorAll(".task-card");
@@ -8,10 +11,10 @@ function updateStatus(data) {
   console.log("Task update event received", data);
   if (!data || !data.id || !data.status) return;
 
-  //fibd the correspondingit pushg task on index.ejs
+  //fibd the corresponding task on index.ejs
   const card = document.querySelector(`.task-card[data-task-id="${data.id}"]`);
   if (!card) return;
-  const statusBadge = document.querySelector(".status-badge");
+  const statusBadge = card.querySelector(".status-badge");
   if (statusBadge) {
     statusBadge.textContent = data.status;
     statusBadge.className = `status-badge ${data.status}`;
@@ -33,15 +36,6 @@ socket.on("connect", () => {
   taskCards.forEach((card) => {
     socket.emit("task:join", { taskId: card.dataset.taskId });
   });
-});
-
-socket.on("disconnect", (reason) => {
-    console.log("Disconnected:", reason);
-});
-
-
-socket.on("connect_error", (error) => {
-  console.log("Connection error:", error.message);
 });
 
 socket.on("task:updated", updateStatus);
