@@ -1,5 +1,3 @@
-const { transports } = require("winston");
-
 const socket = io("https://todo-application-tyzy.onrender.com",{
   transports: ["websocket","polling"],
   reconnection: true,
