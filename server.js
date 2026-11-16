@@ -1,31 +1,32 @@
-const http = require('http');
-const { Server } = require('socket.io');
-const registerTaskSocket = require('./sockets/task.socket');
-const cors = require('cors')
+const http = require("http");
+const { Server } = require("socket.io");
+const registerTaskSocket = require("./sockets/task.socket");
+const cors = require("cors");
 
-const app = require('./app');
-const DB = require('./config/db');
+const app = require("./app");
+const DB = require("./config/db");
 
 const PORT = process.env.PORT;
-const HOST = '0.0.0.0';
+const HOST = "0.0.0.0";
 
 const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
-    },
-    transports: ["websocket", "polling"]
-});
+const io = new Server(server);
+const { startOverdueJob } = require("./jobs/overdueJob");
 
 //connect to db
 registerTaskSocket(io);
-DB.connectToMongoDB();
-const { startOverdueJob } = require('./jobs/overdueJob');
+async function startServer() {
+  try {
+    await DB.connectToMongoDB();
+    startOverdueJob(io);
 
-startOverdueJob(io);
+    server.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Server startup failed:', error);
+    process.exit(1);
+  }
+}
 
-
-server.listen(PORT, ()=>{
-    console.log(`Server listening on port ${PORT}`)
-})
+startServer();

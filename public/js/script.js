@@ -8,7 +8,7 @@ function updateStatus(data) {
   console.log("Task update event received", data);
   if (!data || !data.id || !data.status) return;
 
-  //fibd the corresponding task on index.ejs
+  //fibd the correspondingit pushg task on index.ejs
   const card = document.querySelector(`.task-card[data-task-id="${data.id}"]`);
   if (!card) return;
   const statusBadge = document.querySelector(".status-badge");
@@ -33,6 +33,10 @@ socket.on("connect", () => {
   taskCards.forEach((card) => {
     socket.emit("task:join", { taskId: card.dataset.taskId });
   });
+});
+
+socket.on("disconnect", (reason) => {
+    console.log("Disconnected:", reason);
 });
 
 

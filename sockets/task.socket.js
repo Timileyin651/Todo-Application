@@ -59,6 +59,7 @@ function registerTaskSocket(io) {
 
     socket.on("disconnect", () => {
       console.log(`Disconnected: ${socket.id}`);
+      console.log(`Reason: ${reason}`);
     });
   });
 }
