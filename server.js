@@ -1,6 +1,7 @@
 const http = require('http');
 const { Server } = require('socket.io');
 const registerTaskSocket = require('./sockets/task.socket');
+const cors = require('cors')
 
 const app = require('./app');
 const DB = require('./config/db');

@@ -1,10 +1,3 @@
-const socket = io("https://todo-application-tyzy.onrender.com",{
-  transports: ["websocket","polling"],
-  reconnection: true,
-  reconnectionAttempts: Infinity,
-  reconnectionDelay: 1000
-});
-
 // On the edit page, #status is the <select> dropdown
 
 // Set on the page with <body data-task-id="<%= t.id %>">
