@@ -9,7 +9,13 @@ const PORT = process.env.PORT;
 const HOST = '0.0.0.0';
 
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    },
+    transports: ["websocket", "polling"]
+});
 
 //connect to db
 registerTaskSocket(io);

@@ -1,4 +1,11 @@
-const socket = io();
+const { transports } = require("winston");
+
+const socket = io("https://todo-application-tyzy.onrender.com",{
+  transports: ["websocket","polling"],
+  reconnection: true,
+  reconnectionAttempts: Infinity,
+  reconnectionDelay: 1000
+});
 
 // On the edit page, #status is the <select> dropdown
 
@@ -36,6 +43,11 @@ socket.on("connect", () => {
   taskCards.forEach((card) => {
     socket.emit("task:join", { taskId: card.dataset.taskId });
   });
+});
+
+
+socket.on("connect_error", (error) => {
+  console.log("Connection error:", error.message);
 });
 
 socket.on("task:updated", updateStatus);
