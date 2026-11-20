@@ -1,4 +1,7 @@
 const socket = io();
+const notification = document.getElementById('notification');
+
+let notificationTimer;
 
 // On the edit page, #status is the <select> dropdown
 
@@ -11,7 +14,7 @@ function updateStatus(data) {
   console.log("Task update event received", data);
   if (!data || !data.id || !data.status) return;
 
-  //fibd the corresponding task on index.ejs
+  //find the corresponding task on index.ejs
   const card = document.querySelector(`.task-card[data-task-id="${data.id}"]`);
   if (!card) return;
   const statusBadge = card.querySelector(".status-badge");
@@ -19,9 +22,27 @@ function updateStatus(data) {
     statusBadge.textContent = data.status;
     statusBadge.className = `status-badge ${data.status}`;
   }
-//   const title = card.querySelector(".task-card__title");
-//   if (title) title.classList.toggle("is-done", data.status === "Completed");
+
 }
+
+function showNotification(message){
+  clearTimeout(notificationTimer);
+  notification.textContent = message;
+  notification.classList.add('show');
+
+  //hide after 5 seconds
+  notificationTimer = setTimeout(() => {
+    notification.classList.remove('show');
+  },5000)
+}
+
+socket.on("connect_error", (error) => {
+  console.error("Socket connection failed:", error.message);
+    if (error.message.startsWith("Unauthorized")) {
+    window.location.href = "/login";
+  }
+
+})
 
 // 'connect' also fires after a reconnect, when rooms are lost, so re-join every time
 socket.on("connect", () => {
@@ -39,3 +60,13 @@ socket.on("connect", () => {
 });
 
 socket.on("task:updated", updateStatus);
+
+socket.on("task:completed",(data) => {
+  showNotification(data.message)
+  console.log(data)
+
+})
+
+if (window.flashMessage) {
+    showNotification(window.flashMessage);
+}

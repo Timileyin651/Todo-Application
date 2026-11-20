@@ -18,7 +18,7 @@
       // passed in from the controller based on req.query.status.
       const active = typeof activeFilter !== 'undefined' ? activeFilter : 'All';
       const filters = ['All', 'Pending', 'Completed', 'Deleted', 'Overdue'];
-    %>
+    %>    
 
     <% if (typeof error !== 'undefined' && error) { %>
         <div class="error-banner"><%= error %></div>
@@ -32,6 +32,12 @@
         ><%= f %></a>
       <% }); %>
     </div>
+        <div id="notification" class="notification"></div>
+    <% if (success_msg && success_msg.length > 0) { %>
+    <script>
+        window.flashMessage = <%- JSON.stringify(success_msg[0]) %>;
+    </script>
+    <% } %>
 
 
     <% if (tasks.length === 0) { %>

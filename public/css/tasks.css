@@ -364,6 +364,37 @@
   margin-top: 8px;
 }
 
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+
+    background-color: #16a34a;
+    color: white;
+
+    padding: 15px 20px;
+    border-radius: 8px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    z-index: 9999;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+
+    transition: all 0.3s ease;
+
+    max-width: 350px;
+}
+
+/* When notification is visible */
+.notification.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 /* ---------- responsive ---------- */
 
 @media (max-width: 640px) {
