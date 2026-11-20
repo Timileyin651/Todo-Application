@@ -14,6 +14,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const app = express();
+//trust render proxy i.e browser(client) -> render proxy -> nodeApplication
+app.set('trust proxy', 1);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
